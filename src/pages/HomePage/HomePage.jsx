@@ -1,9 +1,37 @@
-import css from "./HomePage.module.css";
+import { useState, useEffect } from "react";
+import { trendingFilms } from "../../trending-api";
+// import css from "./HomePage.module.css";
+import MovieList from "../../components/MovieList/MovieList";
+import Error from "../../components/Error/Error";
+import Loader from "../../components/Loader/Loader";
 
 export default function HomePage() {
+  const [loader, setLoader] = useState(false);
+  const [error, setError] = useState(false);
+  const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const getFilms = async () => {
+      try {
+        setLoader(true);
+        const newFilm = await trendingFilms();
+        setList(newFilm);
+
+        // console.log(newFilm);
+      } catch (error) {
+        setError(true);
+      } finally {
+        setLoader(false);
+      }
+    };
+    getFilms();
+  }, []);
+
   return (
-    <div className={css.container}>
-      <h1>Home</h1>
-    </div>
+    <>
+      {loader && <Loader />}
+      {error && <Error />}
+      {list.length > 0 && <MovieList value={list} />}
+    </>
   );
 }
