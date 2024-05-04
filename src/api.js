@@ -16,8 +16,8 @@ export const trendingFilms = async () => {
   return (await response).data.results;
 };
 
-export const getFilmDetails = async (id) => {
-  const response = await axios.get(`/movie/${id}`, {
+export const getFilmDetails = async (movieId) => {
+  const response = await axios.get(`/movie/${movieId}`, {
     headers: {
       Authorization: authorization,
     },
@@ -25,6 +25,32 @@ export const getFilmDetails = async (id) => {
       language: "en-US",
     },
   });
-  console.log(response);
-  return response;
+
+  return response.data;
+};
+
+export const getCast = async (movieId) => {
+  const response = await axios.get(`/movie/${movieId}/credits`, {
+    headers: {
+      Authorization: authorization,
+    },
+    params: {
+      language: "en-US",
+    },
+  });
+
+  return response.data;
+};
+
+export const getReviews = async (movieId) => {
+  const response = await axios.get(`movie/${movieId}/reviews`, {
+    headers: {
+      Authorization: authorization,
+    },
+    params: {
+      language: "en-US",
+    },
+  });
+
+  return response.data;
 };

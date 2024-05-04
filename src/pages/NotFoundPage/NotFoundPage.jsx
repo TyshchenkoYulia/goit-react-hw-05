@@ -7,11 +7,11 @@ export default function NotFoundPage() {
   return (
     <div className={css.container}>
       <p className={css.error}>
-        <BiSolidMessageError />
+        <BiSolidMessageError color="red" size="30" />
         Opps! Page not found! Sorry!
       </p>
       <p className={css.message}>
-        Please visit out <IoArrowUndoSharp />
+        Please visit <IoArrowUndoSharp color="orangered" />
         <Link to="/">home page</Link>
       </p>
     </div>

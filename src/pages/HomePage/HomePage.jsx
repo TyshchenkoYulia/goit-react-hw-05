@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { trendingFilms } from "../../trending-api";
+import { trendingFilms } from "../../api";
 // import css from "./HomePage.module.css";
 import MovieList from "../../components/MovieList/MovieList";
 import Error from "../../components/Error/Error";
@@ -16,8 +16,6 @@ export default function HomePage() {
         setLoader(true);
         const newFilm = await trendingFilms();
         setList(newFilm);
-
-        console.log(newFilm);
       } catch (error) {
         setError(true);
       } finally {
