@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 export default function MovieDetailsPage() {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(false);
-  const [details, setDetails] = useState([]);
+  const [details, setDetails] = useState({});
   const { filmId } = useParams();
 
   const { poster_path, title, overview, release_date, genres } = details;
@@ -41,24 +41,32 @@ export default function MovieDetailsPage() {
       {loader && <Loader />}
       {error && <Error />}
       {details && (
-        <div>
-          <img
-            className={css.img}
-            src={`https://image.tmdb.org/t/p/w200/${poster_path}`}
-            alt={title}
-            width="150"
-          />
-          <div>
-            <h2>{title}</h2>
-            <p>{release_date}</p>
-            <h3>User score: %</h3>
-            <h3>Overview</h3>
-            <p>{overview}</p>
-            <h3>Genres</h3>
-            <ul className={css.genre}>
-              {genres.map((ganre) => (
-                <li key={ganre.id}>{ganre.name}</li>
-              ))}
+        <div className={css.container}>
+          <img className={css.img} src={poster_path} alt={title} />
+          <div className={css.list}>
+            <ul>
+              <li>
+                <h2 className={css.title}>
+                  {title} ({release_date})
+                </h2>
+              </li>
+              <li>
+                <p className={css.text}>User Score:</p>
+              </li>
+              <li>
+                <p className={css.text}>
+                  Overview:
+                  {overview}
+                </p>
+              </li>
+              <li>
+                <p className={css.text}>
+                  Genres:
+                  {genres.map((genre) => (
+                    <span key={genre.id}>{genre.name} </span>
+                  ))}
+                </p>
+              </li>
             </ul>
           </div>
         </div>
