@@ -54,3 +54,17 @@ export const getReviews = async (movieId) => {
 
   return response.data;
 };
+export const getSearchMovies = async () => {
+  const response = await axios.get("search/movie", {
+    headers: {
+      Authorization: authorization,
+    },
+    params: {
+      language: "en-US",
+      include_adult: "false",
+      page: 1,
+    },
+  });
+
+  return response.data;
+};
