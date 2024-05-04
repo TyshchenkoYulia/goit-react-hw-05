@@ -15,3 +15,16 @@ export const trendingFilms = async () => {
 
   return (await response).data.results;
 };
+
+export const getFilmDetails = async (id) => {
+  const response = await axios.get(`/movie/${id}`, {
+    headers: {
+      Authorization: authorization,
+    },
+    params: {
+      language: "en-US",
+    },
+  });
+  console.log(response);
+  return response;
+};

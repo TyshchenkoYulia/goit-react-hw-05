@@ -17,7 +17,7 @@ export default function HomePage() {
         const newFilm = await trendingFilms();
         setList(newFilm);
 
-        // console.log(newFilm);
+        console.log(newFilm);
       } catch (error) {
         setError(true);
       } finally {
