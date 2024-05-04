@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { getFilmDetails } from "../../api";
 import Loader from "../../components/Loader/Loader";
 import Error from "../../components/Error/Error";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 
 export default function MovieDetailsPage() {
   const [loader, setLoader] = useState(false);
@@ -88,6 +88,7 @@ export default function MovieDetailsPage() {
               </NavLink>
             </li>
           </ul>
+          <Outlet />
         </div>
       )}
     </>

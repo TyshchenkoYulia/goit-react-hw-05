@@ -11,17 +11,13 @@ export default function MovieCast() {
   const [cast, setCast] = useState(null);
   const { movieId } = useParams();
 
-  console.log(cast);
-
   useEffect(() => {
     const getFilms = async () => {
       try {
         setLoader(true);
         const newCast = await getCast(movieId);
 
-        console.log(newCast.cast);
-
-        setCast(newCast);
+        setCast(newCast.cast);
       } catch (error) {
         setError(true);
       } finally {
@@ -40,8 +36,9 @@ export default function MovieCast() {
           {cast.map((item) => (
             <li key={item.id}>
               <img
-                src={`https://image.tmdb.org/t/p/w200${item.profile_path}`}
+                src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
                 alt={item.name}
+                width="300"
               />
               <p>{item.name}</p>
               <p>Character: {item.character}</p>

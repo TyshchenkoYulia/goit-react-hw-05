@@ -8,7 +8,7 @@ import Error from "../Error/Error";
 export default function MovieReviews() {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(false);
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -17,7 +17,7 @@ export default function MovieReviews() {
         setLoader(true);
         const newReviews = await getReviews(movieId);
 
-        console.log(newReviews);
+        console.log(newReviews.results);
 
         setReviews(newReviews.results);
       } catch (error) {
@@ -38,12 +38,12 @@ export default function MovieReviews() {
       )}
       {reviews && (
         <ul className={css.container}>
-          {reviews.map((item) => {
+          {reviews.map((item) => (
             <li key={item.id}>
-              <h1>Author:</h1>
-              <p></p>
-            </li>;
-          })}
+              <h2>Author: {item.author}</h2>
+              <p>{item.content}</p>
+            </li>
+          ))}
         </ul>
       )}
     </div>
