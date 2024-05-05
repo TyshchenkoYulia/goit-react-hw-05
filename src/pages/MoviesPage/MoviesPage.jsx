@@ -48,14 +48,12 @@ export default function MoviesPage() {
 
         const newMovies = await getSearchMovies(queryParams, page);
 
-        setMovies(newMovies.result);
-        // console.log(newMovies);
+        setMovies(newMovies.results);
 
         if (newMovies.length === 0) {
           setNotFoundError(true);
         }
-
-        setMovies(newMovies);
+        // setMovies((prevMovies) => [...prevMovies, ...newMovies]);
       } catch (error) {
         setError(true);
       } finally {

@@ -28,7 +28,7 @@ export default function MovieCast() {
   }, [movieId]);
 
   return (
-    <div>
+    <div className={css.wrapper}>
       {loader && <Loader />}
       {error && <Error />}
       {cast && (
@@ -36,9 +36,10 @@ export default function MovieCast() {
           {cast.map((item) => (
             <li key={item.id}>
               <img
-                src={`https://image.tmdb.org/t/p/w500${item.profile_path}`}
+                className={css.img}
+                src={`https://image.tmdb.org/t/p/w300${item.profile_path}`}
                 alt={item.name}
-                width="300"
+                width="100"
               />
               <p>{item.name}</p>
               <p>Character: {item.character}</p>

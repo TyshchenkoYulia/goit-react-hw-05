@@ -54,7 +54,7 @@ export const getReviews = async (movieId) => {
 
   return response.data;
 };
-export const getSearchMovies = async () => {
+export const getSearchMovies = async (query, page) => {
   const response = await axios.get("search/movie", {
     headers: {
       Authorization: authorization,
@@ -62,7 +62,8 @@ export const getSearchMovies = async () => {
     params: {
       language: "en-US",
       include_adult: "false",
-      page: 1,
+      page,
+      query,
     },
   });
 
