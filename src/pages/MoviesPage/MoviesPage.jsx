@@ -5,29 +5,38 @@ import toast, { Toaster } from "react-hot-toast";
 import Loader from "../../components/Loader/Loader";
 import Error from "../../components/Error/Error";
 import { getSearchMovies } from "../../api";
+import { useSearchParams } from "react-router-dom";
+import MovieList from "../../components/MovieList/MovieList";
 
-export default function MoviesPage({ onSubmit }) {
+export default function MoviesPage() {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(false);
   const [movies, setMovies] = useState([]);
   const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
+  // const [query, setQuery] = useState([]);
   const [notFoundError, setNotFoundError] = useState(false);
+  const [params, setParams] = useSearchParams();
+
+  const queryParams = params.get("query") ?? "";
 
   const onSubmitForm = (event) => {
     event.preventDefault();
+    setMovies([]);
+    setPage(1);
     const form = event.target;
-    const data = form.elements.topic.value;
-    if (data.trim() === "") {
+    const queryMovies = form.elements.movies.value.trim();
+    setParams({ query: queryMovies });
+
+    if (queryMovies === "") {
       toast.error("Please, enter your request!");
       return;
     }
-    onSubmit(data.trim());
+    setError(false);
     form.reset();
   };
 
   useEffect(() => {
-    if (!query) {
+    if (!queryParams) {
       return;
     }
 
@@ -37,13 +46,16 @@ export default function MoviesPage({ onSubmit }) {
         setLoader(true);
         setNotFoundError(false);
 
-        const newMovies = await getSearchMovies(query, page);
+        const newMovies = await getSearchMovies(queryParams, page);
+
+        setMovies(newMovies.result);
+        // console.log(newMovies);
 
         if (newMovies.length === 0) {
           setNotFoundError(true);
         }
 
-        setMovies((prevMovies) => [...prevMovies, ...newMovies]);
+        setMovies(newMovies);
       } catch (error) {
         setError(true);
       } finally {
@@ -51,7 +63,7 @@ export default function MoviesPage({ onSubmit }) {
       }
     };
     getMovies();
-  }, [query, page]);
+  }, [queryParams, page]);
 
   const handleLoadMore = () => {
     setPage(page + 1);
@@ -65,6 +77,7 @@ export default function MoviesPage({ onSubmit }) {
           name="movies"
           type="text"
           autoComplete="off"
+          placeholder="Search movies"
           autoFocus
         />
         <button className={css.btn} type="submit">
@@ -75,7 +88,10 @@ export default function MoviesPage({ onSubmit }) {
       {loader && <Loader />}
       {error && <Error />}
       {notFoundError && <p>Not found! Please, try to make another request!</p>}
-      {movies.length > 0 && !loader && <LoadMoreBtn onClick={handleLoadMore} />}
+      {movies.length > 0 && <MovieList value={movies} />}
+      {movies.length > 0 && !loader && (
+        <LoadMoreBtn onClick={handleLoadMore} page={page} />
+      )}
     </>
   );
 }
