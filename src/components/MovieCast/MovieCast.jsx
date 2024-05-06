@@ -8,7 +8,7 @@ import Error from "../Error/Error";
 export default function MovieCast() {
   const [loader, setLoader] = useState(false);
   const [error, setError] = useState(false);
-  const [cast, setCast] = useState(null);
+  const [cast, setCast] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
@@ -31,6 +31,9 @@ export default function MovieCast() {
     <div className={css.wrapper}>
       {loader && <Loader />}
       {error && <Error />}
+      {cast.length === 0 && (
+        <p>Sorry. We dont have any reviews for this movie</p>
+      )}
       {cast && (
         <ul className={css.container}>
           {cast.map((item) => (
